@@ -16,5 +16,4 @@ features:
     details: ---
 
 footer: MIT Licensed
-
 ---
