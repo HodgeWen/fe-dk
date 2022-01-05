@@ -12,7 +12,9 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "."
   },
   "exclude": ["node_modules"]
 }

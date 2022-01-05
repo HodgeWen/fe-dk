@@ -1,5 +1,14 @@
-import { getHeaders, getResponse, getSendData, getUrl } from './helper'
-import { RequestOptions, HttpOptions, HTTPBeforeHandler, AliasRequestOptions } from './type'
+import { getResponse, getSendData, getUrl, HttpResponse } from './helper'
+
+import { isFormData, isUndef } from '../utils/data-type'
+
+import {
+  RequestOptions,
+  HttpOptions,
+  HTTPBeforeHandler,
+  AliasRequestOptions,
+  XHRProps
+} from './type'
 
 export default class Http {
   private _config = {
@@ -34,55 +43,85 @@ export default class Http {
 
   private xhrSet: Set<XMLHttpRequest> = new Set()
 
-  private static abortHandler = (e: ProgressEvent<XMLHttpRequestEventTarget>) => {}
-
-  async request(options: RequestOptions) {
-    const xhr = new XMLHttpRequest()
-    this.xhrSet.add(xhr)
-
-    let config = this.mergeOptions(options)
-    if (this.before) {
-      config = await this.before(config, xhr)
+  private setXHRHandlers(
+    xhr: XMLHttpRequest,
+    resolve: (value: any) => void,
+    reject: (value: any) => void
+  ) {
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState !== XMLHttpRequest.DONE) return
+      resolve(getResponse(xhr))
     }
+    xhr.onabort = () => {
 
-    return new Promise((resolve, reject) => {
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return
-        resolve(getResponse(xhr))
+    }
+    xhr.onerror = (err) => {
+      reject(err)
+    }
+    xhr.onload = () => {}
+    xhr.onloadend = () => {}
+    xhr.onloadstart = () => {}
+    xhr.onprogress = () => {}
+    xhr.upload.onprogress = () => {}
+    xhr.ontimeout = (err) => {
+      reject({
+        code: 408,
+        message: '请求超时'
+      })
+    }
+  }
+
+  private setXHRProps(xhr: XMLHttpRequest, config: XHRProps) {
+    const { responseType, timeout, withCredentials } = config
+    if (!isUndef(responseType)) {
+      xhr.responseType = responseType
+    }
+    xhr.timeout = timeout
+    xhr.withCredentials = withCredentials
+  }
+
+  /**
+   * 标准请求方法
+   * @param options 请求选项
+   */
+  request<T = any>(options: RequestOptions) {
+    return new Promise<HttpResponse<T>>(async (resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      this.xhrSet.add(xhr)
+
+      let config = this.mergeOptions(options)
+      if (this.before) {
+        config = await this.before(config, xhr)
       }
-      xhr.onabort = () => {
-        console.log(xhr)
+      /** 如果是FormData让浏览器决定其Content-Type */
+      if (isFormData(config.data)) {
+        delete config.headers['Content-Type']
       }
-      xhr.onerror = () => {}
-      xhr.onload = () => {}
-      xhr.onloadend = () => {}
-      xhr.onloadstart = () => {}
-      xhr.onprogress = () => {}
-      xhr.upload.onprogress = () => {}
-      xhr.ontimeout = () => {}
+
+      this.setXHRHandlers(xhr, resolve, reject)
+      this.setXHRProps(xhr, config)
 
       const { method, url, params, headers, data } = config
 
       xhr.open(method, getUrl(url, params, method), true)
 
-      getHeaders(headers, data)
-      // POST请求,PUT请求, PATCH请求携带data时需指定headers(默认会根据data数据的类型来自动获取)
+      // 发送请求头
       for (const key in headers) {
         xhr.setRequestHeader(key, headers[key])
       }
 
-      xhr.responseType = 'json'
-
-      xhr.timeout = 20000
-      xhr.withCredentials = options.withCredentials ?? false
-
-      xhr.send(getSendData(config.data, config.method || 'get'))
+      xhr.send(getSendData(data, method))
     })
   }
 
-  get(url: string, options?: AliasRequestOptions) {
-    return this.request({
-      method: 'get',
+  /**
+   * 用于获取资源
+   * @param url 请求地址
+   * @param options 请求选项
+   */
+  get<T = any>(url: string, options?: AliasRequestOptions) {
+    return this.request<T>({
+      method: 'GET',
       url,
       ...options
     })
@@ -94,10 +133,10 @@ export default class Http {
    * @param data 请求主体
    * @param options 请求选项
    */
-  post(url: string, data?: any, options?: AliasRequestOptions) {
-    return this.request({
+  post<T = any>(url: string, data?: any, options?: AliasRequestOptions) {
+    return this.request<T>({
       url,
-      method: 'post',
+      method: 'POST',
       data,
       ...options
     })
@@ -108,11 +147,11 @@ export default class Http {
    * @param url 请求地址
    * @param options 请求选项
    */
-  head(url: string, options?: AliasRequestOptions) {
-    return this.request({
+  head<T>(url: string, options?: AliasRequestOptions) {
+    return this.request<T>({
       url,
       ...options,
-      method: 'head'
+      method: 'HEAD'
     })
   }
 
@@ -122,11 +161,11 @@ export default class Http {
    * @param data 请求主体
    * @param options 请求选项
    */
-  put(url: string, data?: any, options?: AliasRequestOptions) {
-    return this.request({
+  put<T>(url: string, data?: any, options?: AliasRequestOptions) {
+    return this.request<T>({
       url,
       data,
-      method: 'put',
+      method: 'PUT',
       ...options
     })
   }
@@ -136,10 +175,10 @@ export default class Http {
    * @param url 请求url
    * @param options 请求选项
    */
-  delete(url: string, options?: AliasRequestOptions) {
-    return this.request({
+  delete<T>(url: string, options?: AliasRequestOptions) {
+    return this.request<T>({
       url,
-      method: 'delete',
+      method: 'DELETE',
       ...options
     })
   }
@@ -150,10 +189,10 @@ export default class Http {
    * @param data 携带的请求数据
    * @param options 请求选项
    */
-  patch(url: string, data?: any, options?: AliasRequestOptions) {
-    return this.request({
+  patch<T>(url: string, data?: any, options?: AliasRequestOptions) {
+    return this.request<T>({
       url,
-      method: 'patch',
+      method: 'PATCH',
       data,
       ...options
     })
@@ -177,7 +216,7 @@ export default class Http {
 
     return {
       url: (options.baseUrl || _config.baseUrl) + options.url,
-      method: options.method || 'get',
+      method: options.method || 'GET',
       baseUrl: options.baseUrl || _config.baseUrl,
       data: options.data,
       headers: {
@@ -187,7 +226,8 @@ export default class Http {
       withCredentials: options.withCredentials ?? _config.withCredentials,
       params: options.params ?? '',
       timeout: options.timeout ?? _config.timeout,
-      onProgress: options.onProgress ?? null
+      onProgress: options.onProgress ?? null,
+      responseType: options.responseType
     }
   }
 }

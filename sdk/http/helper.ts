@@ -1,26 +1,38 @@
+import { isObj } from '../utils/data-type'
 import { HTTPCodeNumber } from './shared'
-import { HTTPMethod, HTTPResponse } from './type'
+import { HTTPMethod } from './type'
 
-export function getResponse(xhr: XMLHttpRequest): HTTPResponse {
-  const { status, responseType, responseText, response } = xhr
+export class HttpResponse<T> {
+  code!: HTTPCodeNumber
 
-  const data =
-    !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
+  data!: T
 
-  return {
-    code: status as HTTPCodeNumber,
-    data,
-    message: ''
+  message = ''
+
+  constructor(xhr: XMLHttpRequest) {
+    const { status, responseType, responseText, response } = xhr
+    this.code = status as HTTPCodeNumber
+    this.data =
+      !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
+    this.message = ''
   }
+
+  is(code: HTTPCodeNumber) {
+    return this.code === code
+  }
+}
+
+export function getResponse<T>(xhr: XMLHttpRequest) {
+  return new HttpResponse<T>(xhr)
 }
 
 /** 获取请求地址 */
 export function getUrl(
   api: string,
   params: Record<string, string | number> | string,
-  method: HTTPMethod = 'get'
+  method: HTTPMethod
 ) {
-  if (method !== 'get') return api
+  if (method !== 'GET') return api
   let paramString =
     typeof params === 'string' ? params : Object.keys(params).map(key => `${key}=${params[key]}`)
   if (api.includes('?') && !api.endsWith('?')) {
@@ -34,20 +46,13 @@ export function getSendData(
   method: HTTPMethod
 ) {
   if (!data) return null
-  if (method === 'head') return null
-  if (method === 'get') {
-    if (Object.prototype.toString.call(data) !== '[object Object]') return null
-    return Object.keys(data)
-      .map(key => `${key}=${data[key]}`)
-      .join('&')
+  if (method === 'HEAD') return null
+  if (method === 'GET') {
+    if (isObj(data))
+      return Object.keys(data)
+        .map(key => `${key}=${(data as any)[key]}`)
+        .join('&')
   }
 
   return data
-}
-
-let contentTypeRegExp = /^content-type$/i
-
-export function getHeaders(headers: Record<string, string>, data: any) {
-
-  if (headers['Content-Type']) {}
 }

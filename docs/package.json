@@ -1,5 +1,7 @@
 {
   "name": "docs",
   "version": "1.0.0",
-  "scripts": {}
+  "devDependencies": {
+    "sdk": "workspace:*"
+  }
 }
