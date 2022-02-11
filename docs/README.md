@@ -1,11 +1,9 @@
 ---
 home: true
 
-actionText: 浏览工具
-actionLink: /functions/
-
-altActionText: 指南
-altActionLink: /guide/
+actions:
+  - text: 浏览工具
+    link: /utils/
 
 features:
   - title: 统一
@@ -13,7 +11,7 @@ features:
   - title: 文档
     details: 新人融入无所适从, 上手慢, 这里提供了工具库的完备文档!
   - title: 高效
-    details: ---
+    details: 所有的工具使用模块导出, 可以完全利用构建工具的tree-shaking机制
 
 footer: MIT Licensed
 ---

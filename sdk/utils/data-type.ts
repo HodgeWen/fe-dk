@@ -58,7 +58,7 @@ export function isNumber(value: any): value is string {
  * @param value 值
  */
 export function isBlob(value: any): value is Blob {
-  return getDataType(value) === 'blob' || getDataType(value) === 'file'
+  return getDataType(value) === 'blob'
 }
 
 /**
@@ -74,7 +74,7 @@ export function isDate(value: any): value is Date {
  * @param value 值
  */
 export function isUndef(value: any): value is undefined {
-  return getDataType(value) === 'undefined'
+  return value === undefined
 }
 
 /**
@@ -123,4 +123,68 @@ export function isSymbol(value: any): value is symbol {
  */
 export function isPromise(value: any): value is Promise<any> {
   return getDataType(value) === 'promise'
+}
+
+/**
+ * 是否是ArrayBuffer
+ * @param value 值
+ */
+export function isArrayBuffer(value: any): value  is ArrayBuffer {
+  return value instanceof ArrayBuffer
+}
+
+/**
+ * 是否是Uint8Array
+ * @param value 值
+ */
+export function isUint8Array(value: any): value is Uint8Array {
+  return value instanceof Uint8Array
+}
+
+/**
+ * 是否是Uint16Array
+ * @param value 值
+ */
+export function isUint16Array(value: any): value is Uint16Array {
+  return value instanceof Uint16Array
+}
+
+/**
+ * 是否是Uint32Array
+ * @param value 值
+ */
+export function isUint32Array(value: any): value is Uint32Array {
+  return value instanceof Uint32Array
+}
+
+/**
+ * 是否是Int8Array
+ * @param value 值
+ */
+export function isInt8Array(value: any): value is Int8Array {
+  return value instanceof Int8Array
+}
+
+/**
+ * 是否是Int16Array
+ * @param value 值
+ */
+export function isInt16Array(value: any): value is Int16Array {
+  return value instanceof Int16Array
+}
+
+/**
+ * 是否是Int32Array
+ * @param value 值
+ */
+export function isInt32Array(value: any): value is Int32Array {
+  return value instanceof Int32Array
+}
+
+/**
+ * 是否是null
+ * @param value 值
+ */
+ export function isNull(value: any): value is null {
+  return value === null
 }
