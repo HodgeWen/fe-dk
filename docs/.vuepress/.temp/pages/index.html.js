@@ -17,8 +17,8 @@ export const data = {
         "details": "为团队而生, 统一管理你的代码库"
       },
       {
-        "title": "文档",
-        "details": "新人融入无所适从, 上手慢, 这里提供了工具库的完备文档!"
+        "title": "易用",
+        "details": "新人融入无所适从, 上手慢, 这里提供了工具库的完备中文文档!"
       },
       {
         "title": "高效",
@@ -30,8 +30,14 @@ export const data = {
   "excerpt": "",
   "headers": [],
   "git": {
-    "updatedTime": null,
-    "contributors": []
+    "updatedTime": 1644574498000,
+    "contributors": [
+      {
+        "name": "whj",
+        "email": "emailwen@qq.com",
+        "commits": 1
+      }
+    ]
   },
   "filePathRelative": "README.md"
 }

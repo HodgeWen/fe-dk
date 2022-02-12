@@ -1,22 +1,16 @@
 export const data = {
-  "key": "v-d04fcc52",
-  "path": "/utils/",
+  "key": "v-24c1ceee",
+  "path": "/utils/data/array.html",
   "title": "",
   "lang": "zh-CN",
   "frontmatter": {},
   "excerpt": "",
   "headers": [],
   "git": {
-    "updatedTime": 1644574498000,
-    "contributors": [
-      {
-        "name": "whj",
-        "email": "emailwen@qq.com",
-        "commits": 1
-      }
-    ]
+    "updatedTime": null,
+    "contributors": []
   },
-  "filePathRelative": "utils/README.md"
+  "filePathRelative": "utils/data/array.md"
 }
 
 if (import.meta.webpackHot) {

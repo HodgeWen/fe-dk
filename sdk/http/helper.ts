@@ -1,58 +1,93 @@
-import { isObj } from '../utils/data-type'
 import { HTTPCodeNumber } from './shared'
-import { HTTPMethod } from './type'
 
-export class HttpResponse<T> {
+let errMsgsMap: Record<number, any> = {
+  408: '请求超时',
+  500: '服务器错误'
+}
+
+function parseResponseHeaders(headStr: string) {
+  return headStr
+    .trim()
+    .split(/[\r\n]+/)
+    .reduce((acc, cur) => {
+      let [key, value] = cur.split(': ')
+      acc[key] = value
+      return acc
+    }, {} as Record<string, any>)
+}
+
+export class HttpResponse<T = any> {
   code!: HTTPCodeNumber
 
   data!: T
 
   message = ''
 
-  constructor(xhr: XMLHttpRequest) {
-    const { status, responseType, responseText, response } = xhr
-    this.code = status as HTTPCodeNumber
-    this.data =
-      !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
-    this.message = ''
+  headers: Record<string, any> = {}
+
+  constructor(code: HTTPCodeNumber, data: any, message: string, headers?: Record<string, any>) {
+    this.code = code
+    this.data = data?.data || data
+    this.message = message
+    this.headers = headers || {}
   }
 
+  /** 是否为某个状态码 */
   is(code: HTTPCodeNumber) {
     return this.code === code
   }
+
+  getHeaders() {
+    return this.headers
+  }
 }
 
-export function getResponse<T>(xhr: XMLHttpRequest) {
-  return new HttpResponse<T>(xhr)
+interface ResponseConf {
+  code: HTTPCodeNumber
+  data: any
+  message: string
+  headers?: Record<string, any>
+}
+
+export function getResponse(conf: ResponseConf): HttpResponse
+export function getResponse(xhr: XMLHttpRequest): HttpResponse
+export function getResponse(xhr: XMLHttpRequest | ResponseConf) {
+  if (xhr instanceof XMLHttpRequest) {
+    const { status, responseType, statusText } = xhr
+
+    let data = !responseType || responseType === 'text' ? xhr.responseText : xhr.response
+
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data)
+      } catch (e) {}
+    }
+
+    let code = data.code || (status as HTTPCodeNumber)
+
+    let message = data.message || errMsgsMap[code] || statusText
+
+    let headers = parseResponseHeaders(xhr.getAllResponseHeaders())
+
+    return new HttpResponse(code, data, message, headers)
+  }
+  const { code, data, message, headers } = xhr
+  return new HttpResponse(code, data, message, headers)
 }
 
 /** 获取请求地址 */
-export function getUrl(
-  api: string,
-  params: Record<string, string | number> | string,
-  method: HTTPMethod
-) {
-  if (method !== 'GET') return api
+export function getUrl(api: string, params: Record<string, string | number> | string) {
   let paramString =
-    typeof params === 'string' ? params : Object.keys(params).map(key => `${key}=${params[key]}`)
+    typeof params === 'string'
+      ? params
+      : Object.keys(params)
+          .map(key => `${key}=${params[key]}`)
+          .join('&')
+
+  if (!paramString) return api
+
   if (api.includes('?') && !api.endsWith('?')) {
     return api + '&' + paramString
   }
   return api + '?' + paramString
-}
-
-export function getSendData(
-  data: Document | XMLHttpRequestBodyInit | null | undefined,
-  method: HTTPMethod
-) {
-  if (!data) return null
-  if (method === 'HEAD') return null
-  if (method === 'GET') {
-    if (isObj(data))
-      return Object.keys(data)
-        .map(key => `${key}=${(data as any)[key]}`)
-        .join('&')
-  }
-
-  return data
 }

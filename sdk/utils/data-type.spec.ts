@@ -7,17 +7,11 @@ import {
   isFile,
   isFormData,
   isFunction,
-  isInt16Array,
-  isInt32Array,
-  isInt8Array,
   isNumber,
   isObj,
   isPromise,
   isString,
   isSymbol,
-  isUint16Array,
-  isUint32Array,
-  isUint8Array,
   isUndef,
   isNull
 } from './data-type'

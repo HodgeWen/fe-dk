@@ -12,6 +12,7 @@ type DataType =
   | 'formdata'
   | 'symbol'
   | 'promise'
+  | 'null'
 
 /**
  * 获取值对应的类型字符串

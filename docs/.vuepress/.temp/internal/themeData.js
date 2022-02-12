@@ -29,9 +29,15 @@ export const themeData = {
     "/utils/": [
       {
         "text": "工具",
+        "activeMatch": "/utils/cache.html",
         "children": [
           "/utils/cache.md",
-          "/utils/data-type.md"
+          "/utils/data-type.md",
+          "/utils/data.md",
+          "/utils/HTTP.md",
+          "/utils/path.md",
+          "/utils/calc.md",
+          "/utils/date.md"
         ]
       }
     ]

@@ -1,22 +1,16 @@
 export const data = {
-  "key": "v-d04fcc52",
-  "path": "/utils/",
-  "title": "",
+  "key": "v-01561418",
+  "path": "/utils/date.html",
+  "title": "日期",
   "lang": "zh-CN",
   "frontmatter": {},
   "excerpt": "",
   "headers": [],
   "git": {
-    "updatedTime": 1644574498000,
-    "contributors": [
-      {
-        "name": "whj",
-        "email": "emailwen@qq.com",
-        "commits": 1
-      }
-    ]
+    "updatedTime": null,
+    "contributors": []
   },
-  "filePathRelative": "utils/README.md"
+  "filePathRelative": "utils/date.md"
 }
 
 if (import.meta.webpackHot) {

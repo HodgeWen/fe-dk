@@ -2,7 +2,7 @@ export const siteData = {
   "base": "/",
   "lang": "zh-CN",
   "title": "fe-sdk",
-  "description": "前端开发工具, 前后端分离",
+  "description": "前端开发工具包",
   "head": [],
   "locales": {}
 }

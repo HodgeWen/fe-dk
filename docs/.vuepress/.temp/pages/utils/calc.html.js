@@ -1,31 +1,29 @@
 export const data = {
-  "key": "v-fffb8e28",
-  "path": "/guide/",
-  "title": "指南",
+  "key": "v-7f1608a6",
+  "path": "/utils/calc.html",
+  "title": "计算",
   "lang": "zh-CN",
-  "frontmatter": {
-    "title": "指南"
-  },
+  "frontmatter": {},
   "excerpt": "",
   "headers": [
     {
       "level": 2,
-      "title": "什么时候将工具添加到此处?",
-      "slug": "什么时候将工具添加到此处",
+      "title": "快速使用",
+      "slug": "快速使用",
+      "children": []
+    },
+    {
+      "level": 2,
+      "title": "api",
+      "slug": "api",
       "children": []
     }
   ],
   "git": {
-    "updatedTime": 1644574498000,
-    "contributors": [
-      {
-        "name": "whj",
-        "email": "emailwen@qq.com",
-        "commits": 1
-      }
-    ]
+    "updatedTime": null,
+    "contributors": []
   },
-  "filePathRelative": "guide/README.md"
+  "filePathRelative": "utils/calc.md"
 }
 
 if (import.meta.webpackHot) {

@@ -1,13 +1,13 @@
-import { getResponse, getSendData, getUrl, HttpResponse } from './helper'
-
-import { isFormData, isUndef } from '../utils/data-type'
+import {  isFormData, isObj, isUndef, path } from '..'
+import { getResponse, getUrl, HttpResponse } from './helper'
 
 import {
-  RequestOptions,
+  RequestConfig,
   HttpOptions,
   HTTPBeforeHandler,
-  AliasRequestOptions,
-  XHRProps
+  AliasRequestConfig,
+  XHRProps,
+  HTTPAfterHandler
 } from './type'
 
 export default class Http {
@@ -19,11 +19,15 @@ export default class Http {
   }
 
   private before: null | HTTPBeforeHandler = null
+  private after: null | HTTPAfterHandler = null
 
   constructor(options: HttpOptions) {
-    const { before, timeout, baseUrl, headers } = options
+    const { before, after, timeout, baseUrl, headers, withCredentials } = options
     if (before) {
       this.before = before
+    }
+    if (after) {
+      this.after = after
     }
 
     const { _config } = this
@@ -39,35 +43,95 @@ export default class Http {
     if (headers) {
       _config.headers = headers
     }
+
+    if (!isUndef(withCredentials)) {
+      _config.withCredentials = withCredentials
+    }
   }
 
   private xhrSet: Set<XMLHttpRequest> = new Set()
 
   private setXHRHandlers(
-    xhr: XMLHttpRequest,
+    xhr: XMLHttpRequest | null,
     resolve: (value: any) => void,
     reject: (value: any) => void
   ) {
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState !== XMLHttpRequest.DONE) return
-      resolve(getResponse(xhr))
-    }
-    xhr.onabort = () => {
+    if (!xhr) return
 
+    // 响应状态
+    let responseMethod = 'resolve' as 'resolve' | 'reject'
+    let doReject = () => {
+      responseMethod = 'reject'
     }
-    xhr.onerror = (err) => {
-      reject(err)
+
+    let onloadend = () => {
+      if (!xhr) return
+
+      let response = getResponse(xhr)
+
+      if (this.after) {
+        response = this.after(response, doReject) || response
+      }
+
+      if ((response.code >= 400 && response.code <= 600) || responseMethod === 'reject') {
+        reject(response)
+      } else {
+        resolve(response)
+      }
+
+      xhr = null
+    }
+
+    if (xhr.onloadend !== undefined) {
+      xhr.onloadend = onloadend
+    } else {
+      xhr.onreadystatechange = () => {
+        if (!xhr) return
+
+        if (xhr.readyState !== XMLHttpRequest.DONE) return
+        // onreadystatechange处理器在err和timeout处理器之前触发, 所以得在setTimeout中执行
+        setTimeout(onloadend)
+      }
+    }
+
+    xhr.onabort = () => {
+      if (!xhr) return
+
+      reject(
+        getResponse({
+          code: 400,
+          data: null,
+          message: '请求被客户端终止'
+        })
+      )
+
+      xhr = null
+    }
+    xhr.onerror = err => {
+      if (!xhr) return
+
+      reject(getResponse(xhr))
+
+      xhr = null
     }
     xhr.onload = () => {}
-    xhr.onloadend = () => {}
-    xhr.onloadstart = () => {}
-    xhr.onprogress = () => {}
-    xhr.upload.onprogress = () => {}
-    xhr.ontimeout = (err) => {
-      reject({
-        code: 408,
-        message: '请求超时'
-      })
+
+    // 上传下载进度事件
+    xhr.onprogress = e => {}
+    xhr.upload.onprogress = e => {}
+
+    xhr.ontimeout = err => {
+      if (!xhr) return
+
+      reject(
+        getResponse({
+          code: 408,
+          data: null,
+          message: '请求超时'
+        })
+      )
+
+      xhr = null
     }
   }
 
@@ -82,35 +146,34 @@ export default class Http {
 
   /**
    * 标准请求方法
-   * @param options 请求选项
+   * @param config 请求选项
    */
-  request<T = any>(options: RequestOptions) {
+  request<T = any>(requestConf: RequestConfig) {
     return new Promise<HttpResponse<T>>(async (resolve, reject) => {
       const xhr = new XMLHttpRequest()
       this.xhrSet.add(xhr)
 
-      let config = this.mergeOptions(options)
+      let config = this.mergeConfig(requestConf)
       if (this.before) {
-        config = await this.before(config, xhr)
-      }
-      /** 如果是FormData让浏览器决定其Content-Type */
-      if (isFormData(config.data)) {
-        delete config.headers['Content-Type']
+        config = await this.before(config as Required<RequestConfig>, xhr)
       }
 
-      this.setXHRHandlers(xhr, resolve, reject)
       this.setXHRProps(xhr, config)
+      this.setXHRHandlers(xhr, resolve, reject)
 
-      const { method, url, params, headers, data } = config
+      const { method, url, params, headers, data, baseUrl } = config
 
-      xhr.open(method, getUrl(url, params, method), true)
+      xhr.open(method, url.startsWith('http') ? url : getUrl(path.join(baseUrl, url), params), true)
 
       // 发送请求头
       for (const key in headers) {
-        xhr.setRequestHeader(key, headers[key])
+        if (data === undefined) {
+          key.toLowerCase() === 'content-type' && delete headers[key]
+        } else {
+          xhr.setRequestHeader(key, headers[key])
+        }
       }
-
-      xhr.send(getSendData(data, method))
+      xhr.send(data)
     })
   }
 
@@ -119,7 +182,7 @@ export default class Http {
    * @param url 请求地址
    * @param options 请求选项
    */
-  get<T = any>(url: string, options?: AliasRequestOptions) {
+  get<T = any>(url: string, options?: AliasRequestConfig) {
     return this.request<T>({
       method: 'GET',
       url,
@@ -133,7 +196,7 @@ export default class Http {
    * @param data 请求主体
    * @param options 请求选项
    */
-  post<T = any>(url: string, data?: any, options?: AliasRequestOptions) {
+  post<T = any>(url: string, data?: any, options?: AliasRequestConfig) {
     return this.request<T>({
       url,
       method: 'POST',
@@ -147,7 +210,7 @@ export default class Http {
    * @param url 请求地址
    * @param options 请求选项
    */
-  head<T>(url: string, options?: AliasRequestOptions) {
+  head<T>(url: string, options?: AliasRequestConfig) {
     return this.request<T>({
       url,
       ...options,
@@ -161,7 +224,7 @@ export default class Http {
    * @param data 请求主体
    * @param options 请求选项
    */
-  put<T>(url: string, data?: any, options?: AliasRequestOptions) {
+  put<T>(url: string, data?: any, options?: AliasRequestConfig) {
     return this.request<T>({
       url,
       data,
@@ -175,7 +238,7 @@ export default class Http {
    * @param url 请求url
    * @param options 请求选项
    */
-  delete<T>(url: string, options?: AliasRequestOptions) {
+  delete<T>(url: string, options?: AliasRequestConfig) {
     return this.request<T>({
       url,
       method: 'DELETE',
@@ -189,7 +252,7 @@ export default class Http {
    * @param data 携带的请求数据
    * @param options 请求选项
    */
-  patch<T>(url: string, data?: any, options?: AliasRequestOptions) {
+  patch<T>(url: string, data?: any, options?: AliasRequestConfig) {
     return this.request<T>({
       url,
       method: 'PATCH',
@@ -211,23 +274,53 @@ export default class Http {
    * 融合请求参数和默认参数
    * @param options 请求参数
    */
-  private mergeOptions(options: RequestOptions) {
+  private mergeConfig(options: RequestConfig) {
     const { _config } = this
 
+    // 合并请求头
+    let headers = {
+      ..._config.headers,
+      ...options.headers
+    }
+
+    let data = options.data
+
+    // 如果是FormData让浏览器决定其Content-Type
+    if (isFormData(data)) {
+      delete headers['Content-Type']
+    }
+    if (ArrayBuffer.isView(data)) {
+      data = data.buffer
+    } else if (isObj(data)) {
+      data = JSON.stringify(data)
+      if (!headers['Content-Type']) {
+        headers['Content-Type'] = 'application/json;charset=utf-8'
+      }
+    } else if (data instanceof URLSearchParams) {
+      data = data.toString()
+      if (!headers['Content-Type']) {
+        headers['Content-Type'] = 'application/json;charset=utf-8'
+      }
+    }
+
     return {
-      url: (options.baseUrl || _config.baseUrl) + options.url,
+      url: options.url,
       method: options.method || 'GET',
       baseUrl: options.baseUrl || _config.baseUrl,
-      data: options.data,
-      headers: {
-        ..._config.headers,
-        ...options.headers
-      },
+      data,
+      headers,
       withCredentials: options.withCredentials ?? _config.withCredentials,
       params: options.params ?? '',
       timeout: options.timeout ?? _config.timeout,
       onProgress: options.onProgress ?? null,
-      responseType: options.responseType
+      responseType: options.responseType ?? undefined
     }
+  }
+
+  /**
+   * 获取默认参数配置
+   */
+  getDefaultConfig() {
+    return this._config
   }
 }

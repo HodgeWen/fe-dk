@@ -44,8 +44,14 @@ export const data = {
     }
   ],
   "git": {
-    "updatedTime": null,
-    "contributors": []
+    "updatedTime": 1644574498000,
+    "contributors": [
+      {
+        "name": "whj",
+        "email": "emailwen@qq.com",
+        "commits": 1
+      }
+    ]
   },
   "filePathRelative": "utils/cache.md"
 }

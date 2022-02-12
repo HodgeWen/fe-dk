@@ -19,46 +19,136 @@ export const data = {
       "children": [
         {
           "level": 3,
-          "title": "isString 是否是字符串",
-          "slug": "isstring-是否是字符串",
+          "title": "isString",
+          "slug": "isstring",
           "children": []
         },
         {
           "level": 3,
-          "title": "isNumber 是否是数字",
-          "slug": "isnumber-是否是数字",
+          "title": "isNumber",
+          "slug": "isnumber",
           "children": []
         },
         {
           "level": 3,
-          "title": "isArray 是否是数组",
-          "slug": "isarray-是否是数组",
+          "title": "isArray",
+          "slug": "isarray",
           "children": []
         },
         {
           "level": 3,
-          "title": "isUndef 是否是undefined",
-          "slug": "isundef-是否是undefined",
+          "title": "isUndef",
+          "slug": "isundef",
           "children": []
         },
         {
           "level": 3,
-          "title": "isDate 是否是日期",
-          "slug": "isdate-是否是日期",
+          "title": "isDate",
+          "slug": "isdate",
           "children": []
         },
         {
           "level": 3,
-          "title": "isNull 是否是null",
-          "slug": "isnull-是否是null",
+          "title": "isNull",
+          "slug": "isnull",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isFunction",
+          "slug": "isfunction",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isObj",
+          "slug": "isobj",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isBol",
+          "slug": "isbol",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isPromise",
+          "slug": "ispromise",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isBlob",
+          "slug": "isblob",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isSymbol",
+          "slug": "issymbol",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isFile",
+          "slug": "isfile",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isArrayBuffer",
+          "slug": "isarraybuffer",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isInt16Array",
+          "slug": "isint16array",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isInt32Array",
+          "slug": "isint32array",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isInt8Array",
+          "slug": "isint8array",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isUint16Array",
+          "slug": "isuint16array",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isUint32Array",
+          "slug": "isuint32array",
+          "children": []
+        },
+        {
+          "level": 3,
+          "title": "isUint8Array",
+          "slug": "isuint8array",
           "children": []
         }
       ]
     }
   ],
   "git": {
-    "updatedTime": null,
-    "contributors": []
+    "updatedTime": 1644574498000,
+    "contributors": [
+      {
+        "name": "whj",
+        "email": "emailwen@qq.com",
+        "commits": 1
+      }
+    ]
   },
   "filePathRelative": "utils/data-type.md"
 }

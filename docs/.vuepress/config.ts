@@ -3,7 +3,7 @@ import { defineUserConfig, DefaultThemeOptions } from 'vuepress'
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'zh-CN',
   title: 'fe-sdk',
-  description: '前端开发工具, 前后端分离',
+  description: '前端开发工具包',
 
   bundler: '@vuepress/vite',
 
@@ -40,9 +40,15 @@ export default defineUserConfig<DefaultThemeOptions>({
       '/utils/': [
         {
           text: '工具',
+          activeMatch: '/utils/cache.html',
           children: [
             '/utils/cache.md',
-            '/utils/data-type.md'
+            '/utils/data-type.md',
+            '/utils/data.md',
+            '/utils/HTTP.md',
+            '/utils/path.md',
+            '/utils/calc.md',
+            '/utils/date.md',
           ]
         },
       ]

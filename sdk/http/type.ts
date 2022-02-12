@@ -1,8 +1,8 @@
-import { HTTPCodeNumber } from './shared'
+import { HttpResponse } from "./helper"
 
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD'
 
-export interface RequestOptions {
+export interface RequestConfig {
   url: string
   baseUrl?: string
   method?: HTTPMethod
@@ -19,20 +19,29 @@ export interface RequestOptions {
 
 export type HTTPBeforeHandler = (
   /** 请求的配置 */
-  conf: RequestOptions,
+  conf: Required<RequestConfig> ,
   /** 请求实例 */
   xhr: XMLHttpRequest
-) => Required<RequestOptions> | Promise<Required<RequestOptions>>
+) => Required<RequestConfig> | Promise<Required<RequestConfig>>
+
+export type HTTPAfterHandler = (
+  /** 响应值 */
+  response: HttpResponse,
+  /** 指定值以reject形式抛出 */
+  reject: () => void
+) => HttpResponse
 
 
 export interface HttpOptions {
   baseUrl?: string
-  before?: HTTPBeforeHandler
+  withCredentials?:  boolean
   timeout?: number
   headers?: Record<string, string>
+  before?: HTTPBeforeHandler
+  after?: HTTPAfterHandler
 }
 
-export type AliasRequestOptions = Omit<RequestOptions, 'url' | 'method' | 'data'>
+export type AliasRequestConfig = Omit<RequestConfig, 'url' | 'method' | 'data'>
 
 export type XHRProps = {
   responseType?: XMLHttpRequestResponseType
