@@ -1,7 +1,7 @@
-import { isDate } from '..'
+import { isDate } from '../..'
 
 class Dater {
-  constructor(date: number | string | Date) {
+  constructor(date: number | string | Date | Dater) {
     if (date instanceof Dater) {
       this.date = date.date
     } else if (isDate(date)) {
@@ -92,6 +92,13 @@ class Dater {
       date.setFullYear(timeStep + date.getFullYear())
       return new Dater(date.getTime())
     }
+  }
+
+  /**
+   * 比较日期获取日期差
+   */
+  compare(date: string | Date | number | Dater) {
+    return Math.ceil( Math.abs(this.timestamp - new Dater(date).timestamp) / 86400000)
   }
 }
 

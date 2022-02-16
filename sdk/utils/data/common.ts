@@ -1,4 +1,4 @@
-import { getDataType, isArray, isDate, isFunction, isObj } from ".."
+import { getDataType, isArray, isDate, isFunction, isObj } from "../.."
 import { objMap } from "./object"
 
 /**

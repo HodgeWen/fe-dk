@@ -37,4 +37,10 @@ describe('日期测试', () => {
     expect(date('2022-02-14').format('ww')).toBe('01')
 
   })
+
+  it('日期差', () => {
+    expect(date('2022-02-14').compare('2022-02-14 01:00:00')).toBe(1)
+    expect(date('2022-02-14').compare('2022-02-15 01:00:00')).toBe(1)
+    expect(date('2022-02-14').compare('2022-02-16 23:59:59')).toBe(3)
+  })
 })

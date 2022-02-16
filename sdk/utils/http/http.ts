@@ -1,4 +1,4 @@
-import {  isFormData, isObj, isUndef, path } from '..'
+import {  isFormData, isObj, isUndef, path } from '../..'
 import { getResponse, getUrl, HttpResponse } from './helper'
 
 import {

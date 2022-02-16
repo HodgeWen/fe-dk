@@ -1,7 +1,15 @@
-export * from './utils/data-type'
+export * from './utils/data/data-type'
 
-export * from './cache/cache'
+export * from './utils/cache/cache'
 
-export { default as Http } from './http/http'
+export { default as Http } from './utils/http/http'
 
-export { default as path } from './path/path'
+export { default as path } from './utils/path/path'
+
+export * from './utils/data/array'
+
+export * from './utils/data/common'
+
+export * from './utils/data/object'
+
+export * from './utils/date/date'

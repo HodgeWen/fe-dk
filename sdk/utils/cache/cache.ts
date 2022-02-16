@@ -1,4 +1,4 @@
-import { getDataType } from 'sdk/utils/data-type'
+import { getDataType } from "../data/data-type"
 
 type Callback<T = any> = (key: string, value?: T, temp?: { value: T; exp: number }) => void
 
