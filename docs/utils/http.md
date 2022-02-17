@@ -4,7 +4,7 @@
 ## 快速使用
 
 ```ts
-import { Http } from 'http'
+import { Http } from 'fe-dk'
 
 const http = new Http({
   baseUrl: '/api', // 表示所有的接口以 /api 作为前缀
