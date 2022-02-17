@@ -4,7 +4,7 @@
 ## 快速使用
 
 ```ts
-import { calc } from 'fe-sdk'
+import { calc } from 'fe-dk'
 
 ```
 

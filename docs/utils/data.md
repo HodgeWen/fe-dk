@@ -2,7 +2,7 @@
 
 ## 快速使用
 ```ts
-import { omit } from 'fe-sdk'
+import { omit } from 'fe-dk'
 const data = omit({ id: 1, name: '张三', age: 20 }, ['id'])
 // data: { name: '张三', age: 20 }
 ```

@@ -2,12 +2,12 @@ import { defineUserConfig, DefaultThemeOptions } from 'vuepress'
 
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'zh-CN',
-  title: 'fe-sdk',
+  title: 'fe-dk',
   description: '前端开发工具包',
 
   bundler: '@vuepress/vite',
 
-  base: '/',
+  base: '/fe-dk/',
 
   themeConfig: {
     docsDir: 'docs',

@@ -4,7 +4,7 @@
 ## 快速使用
 
 ```ts
-import { path } from 'fe-sdk'
+import { path } from 'fe-dk'
 
 const url = path.join('a', 'b', 'c')
 // return '/a/b/c'
@@ -15,7 +15,7 @@ const url = path.join('a', 'b', 'c')
 ### path.join
 join方法用于拼接各个路径片段, 拼接成一个以 '/' 开头的路径字符串.
 ```ts
-import { path } from 'fe-sdk'
+import { path } from 'fe-dk'
 
 const url = path.join('a', 'b', 'c')
 // return '/a/b/c'

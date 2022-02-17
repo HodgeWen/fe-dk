@@ -4,7 +4,7 @@
 ## 快速使用
 
 ```ts
-import { isArray } from 'fe-sdk'
+import { isArray } from 'fe-dk'
 
 let result = Math.random() * 10 > 5 ? [1, 2, 3] : 'failed'
 

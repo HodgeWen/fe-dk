@@ -5,7 +5,7 @@
 ## 快速使用
 
 ```ts
-import { WebCache } from 'fe-sdk'
+import { WebCache } from 'fe-dk'
 
 // 获取对键的类型提示
 type SessionKeys = 'TOKEN' | 'USER'

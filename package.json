@@ -1,13 +1,14 @@
 {
-  "name": "fe-sdk",
-  "version": "1.0.0",
+  "name": "fe-dk",
+  "version": "1.0.1",
   "description": "前端开发工具包",
   "scripts": {
     "test": "jest",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:serve": "vuepress serve docs",
-    "sdk:build": "rollup -c"
+    "dk:build": "rollup -c",
+    "deploy": "npm publish --registry https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",
@@ -26,8 +27,8 @@
   ],
   "exports": {
     ".": {
-      "import":  "./dist/fe-sdk.js",
-      "require": "./dist/fe-sdk.common.js"
+      "import": "./dist/fe-dk.js",
+      "require": "./dist/fe-dk.common.js"
     }
   },
   "homepage": "https://github.com/wenhongjie/fe-sdk#readme",

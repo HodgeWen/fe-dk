@@ -2,13 +2,13 @@ import { defineConfig } from 'rollup'
 import esBuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
 
-const input = 'sdk/index.ts'
+const input = 'dk/index.ts'
 
 export default [
   defineConfig({
     input,
     output: {
-      file: 'dist/fe-sdk.js',
+      file: 'dist/fe-dk.js',
       format: 'es'
     },
     plugins: [
@@ -18,7 +18,7 @@ export default [
   defineConfig({
     input,
     output: {
-      file: 'dist/fe-sdk.common.js',
+      file: 'dist/fe-dk.common.js',
       format: 'commonjs'
     },
     plugins: [
@@ -26,7 +26,7 @@ export default [
     ]
   }),
   defineConfig({
-    input: 'sdk/index.ts',
+    input: 'dk/index.ts',
     output: {
       file: 'types/index.d.ts',
       format: 'es'

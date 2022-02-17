@@ -1,12 +1,9 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "declaration": true,
-    "paths": {
-      "sdk/*": ["sdk/*"],
-    }
+    "declaration": true
   },
   "include": [
-    "sdk", "docs"
+    "dk", "docs"
   ]
 }

@@ -8,7 +8,7 @@
 ## 快速使用
 
 ```ts
-import { date } from 'fe-sdk'
+import { date } from 'fe-dk'
 
 // 对此刻的日期默认使用yyyy-MM-dd格式化
 date().format()
@@ -19,7 +19,7 @@ date().format()
 前端关于日期格式化最常用的 api
 
 ```ts
-import { date } from 'fe-sdk'
+import { date } from 'fe-dk'
 
 // 对此刻的日期默认使用yyyy-MM-dd格式化
 date().format()
