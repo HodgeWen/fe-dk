@@ -8,11 +8,9 @@ jobs:
       uses: actions/checkout@master
 
     - name: InstallPNpm
-      uses: pnpm/action-setup@v2.1.0
-      with:
-        version: latest
+      run: npm i -g pnpm
 
-    - name: vuepress-deploy
+    - name: DeployDocs
       uses: jenkey2011/vuepress-deploy@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACT }}
