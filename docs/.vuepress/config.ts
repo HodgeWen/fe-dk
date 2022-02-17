@@ -9,8 +9,14 @@ export default defineUserConfig<DefaultThemeOptions>({
 
   base: '/fe-dk/',
 
+  plugins: [['@vuepress/plugin-search', {}]],
+
   themeConfig: {
     docsDir: 'docs',
+
+    search: true,
+
+    algolia: {},
 
     notFound: [
       '这里什么都没有',
@@ -32,11 +38,7 @@ export default defineUserConfig<DefaultThemeOptions>({
     ],
 
     sidebar: {
-      '/guide/': [
-        { text: '指南', children: [
-          '/guide/README.md'
-        ]  }
-      ],
+      '/guide/': [{ text: '指南', children: ['/guide/README.md'] }],
       '/utils/': [
         {
           text: '工具',
@@ -52,9 +54,9 @@ export default defineUserConfig<DefaultThemeOptions>({
             '/utils/crypto.md',
             '/utils/hash.md',
             '/utils/db.md',
-            '/utils/encoder.md',
+            '/utils/encoder.md'
           ]
-        },
+        }
       ]
     }
   }
