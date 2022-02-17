@@ -15,8 +15,8 @@ jobs:
     - name: vuepress-deploy
       uses: jenkey2011/vuepress-deploy@master
       env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        TARGET_REPO: wenhongjie/fe-dk-docs
-        TARGET_BRANCH: main
+        ACCESS_TOKEN: ${{ secrets.ACT }}
+        TARGET_REPO: wenhongjie/fe-dk
+        TARGET_BRANCH: gh-pages
         BUILD_SCRIPT: pnpm i && pnpm docs:build
         BUILD_DIR: docs/.vuepress/dist
