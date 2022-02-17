@@ -7,11 +7,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
+    - name: InstallPNpm
+      uses: actions/action-setup@v2.1.0
+
     - name: vuepress-deploy
       uses: jenkey2011/vuepress-deploy@master
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         TARGET_REPO: wenhongjie/fe-dk-docs
         TARGET_BRANCH: main
-        BUILD_SCRIPT: yarn && yarn docs:build
+        BUILD_SCRIPT: pnpm i && pnpm docs:build
         BUILD_DIR: docs/.vuepress/dist
