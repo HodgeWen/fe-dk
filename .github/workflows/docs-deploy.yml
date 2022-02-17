@@ -8,7 +8,9 @@ jobs:
       uses: actions/checkout@master
 
     - name: InstallPNpm
-      uses: actions/action-setup@v2.1.0
+      uses: pnpm/action-setup@v2.1.0
+      with:
+        version: latest
 
     - name: vuepress-deploy
       uses: jenkey2011/vuepress-deploy@master
