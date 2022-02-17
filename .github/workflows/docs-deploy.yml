@@ -13,5 +13,5 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         TARGET_REPO: wenhongjie/fe-dk
         TARGET_BRANCH: main
-        BUILD_SCRIPT: pnpm i && pnpm docs:build
+        BUILD_SCRIPT: yarn && yarn docs:build
         BUILD_DIR: docs/.vuepress/dist
