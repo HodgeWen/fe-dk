@@ -1,6 +1,6 @@
 {
   "name": "fe-dk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "前端开发工具包",
   "scripts": {
     "test": "jest",
@@ -23,7 +23,8 @@
     "url": "https://github.com/wenhongjie/fe-sdk/issues"
   },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "exports": {
     ".": {
