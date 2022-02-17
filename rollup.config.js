@@ -28,7 +28,7 @@ export default [
   defineConfig({
     input: 'dk/index.ts',
     output: {
-      file: 'types/index.d.ts',
+      file: 'types/fe-dk.d.ts',
       format: 'es'
     },
     plugins: [dts()]
