@@ -21,6 +21,15 @@
   "bugs": {
     "url": "https://github.com/wenhongjie/fe-sdk/issues"
   },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import":  "./dist/fe-sdk.js",
+      "require": "./dist/fe-sdk.common.js"
+    }
+  },
   "homepage": "https://github.com/wenhongjie/fe-sdk#readme",
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.9",

@@ -16,6 +16,16 @@ export default [
     ]
   }),
   defineConfig({
+    input,
+    output: {
+      file: 'dist/fe-sdk.common.js',
+      format: 'commonjs'
+    },
+    plugins: [
+      esBuild({ minify: true })
+    ]
+  }),
+  defineConfig({
     input: 'sdk/index.ts',
     output: {
       file: 'types/index.d.ts',
