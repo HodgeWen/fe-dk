@@ -13,6 +13,7 @@ export default defineUserConfig<DefaultThemeOptions>({
 
   themeConfig: {
     docsDir: 'docs',
+    repo: 'https://github.com/wenhongjie/fe-dk',
 
     search: true,
 

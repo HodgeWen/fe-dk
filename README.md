@@ -1,8 +1,4 @@
 # fe-sdk 前端开发工具包
 
-## 代码贡献
-
-## 提新功能
-
-## 报告错误
+[文档地址](https://wenhongjie.github.io/fe-dk/)
 
