@@ -110,14 +110,20 @@ declare function isInt32Array(value: any): value is Int32Array;
  */
 declare function isNull(value: any): value is null;
 
-declare type Callback<T = any> = (key: string, value?: T, temp?: {
+declare type Callback<T = any> = (key: CacheKey<T>, value?: T, temp?: {
     value: T;
     exp: number;
 }) => void;
-declare class WebStorage<K extends string = string> {
+interface CacheKey<T = any> extends String {
+}
+declare function cacheKey<T>(str: string): CacheKey<T>;
+declare type ExtractCacheKey<T> = T extends CacheKey<infer K> ? K : never;
+declare class WebStorage {
     private store;
     static enabledType: Set<string>;
-    callbacks: Record<string, Callback[]>;
+    callbacks: {
+        [key: string]: Callback[];
+    };
     constructor(storageType: 'local' | 'session');
     /**
      * 往缓存里添加单条记录
@@ -125,29 +131,31 @@ declare class WebStorage<K extends string = string> {
      * @param value 单个值
      * @param exp 单个值的过期时间, 单位秒
      */
-    set<T>(key: K, value: T, exp?: number): WebStorage<K>;
-    get<T = any>(key: K): T | null;
-    get<T = any>(key: K, defaultValue: Partial<T>): Partial<T>;
-    get<T = any[]>(keys: K[]): T;
+    set<T>(key: CacheKey<T>, value: T, exp?: number): WebStorage;
+    get<T>(key: CacheKey<T>): T | null;
+    get<T>(key: CacheKey<T>, defaultValue: Partial<T>): Partial<T>;
+    get<T extends [...any[]]>(keys: [...T]): {
+        [I in keyof T]: ExtractCacheKey<T[I]>;
+    };
     /**
      * 获取字段过期时间
      * @param key 字段名
      */
-    getExpire(key: K): number;
+    getExpire<T>(key: CacheKey<T>): number;
     /**
      * 移除一个缓存值
      * @param key 需要移除的值的键
      */
-    remove(key: K): WebStorage<K>;
+    remove(key: CacheKey): WebStorage;
     /**
      * 移除多个缓存值
      * @param keys 需要移除的值的键的数组
      */
-    remove(keys: K[]): WebStorage<K>;
+    remove(keys: CacheKey[]): WebStorage;
     /**
      * 清空缓存
      */
-    remove(): WebStorage<K>;
+    remove(): WebStorage;
     /**
      * 添加一个值改动的回调
      * @param key 键
@@ -172,7 +180,7 @@ declare class WebStorage<K extends string = string> {
 declare class WebCache {
     private static session;
     private static local;
-    static create<K extends string = string>(type: 'session' | 'local'): WebStorage<K>;
+    static create(type: 'session' | 'local'): WebStorage;
 }
 
 declare const HTTP_CODE: {
@@ -420,6 +428,17 @@ declare function oneOf<K extends string | number>(value: K, values: K[]): boolea
  * @param target 值
  */
 declare function deepCopy<T extends any>(this: any, target: T): T;
+/**
+ * 判断两个值是否结构相等
+ * @param v1 值1
+ * @param v2 值2
+ */
+declare function equal(v1: any, v2: any, byKey?: number | string): boolean;
+/**
+ * 合并对象并返回一个新的对象
+ * @param args 参数列表
+ */
+declare function merge(...args: Record<any, any>[]): Record<any, any> | undefined;
 
 /**
  * 排除一个对象的某些键和值
@@ -490,4 +509,13 @@ interface DateFactory {
 }
 declare const date: DateFactory;
 
-export { Http, WebCache, date, deepCopy, getChainValue, getDataType, isArray, isArrayBuffer, isBlob, isBol, isDate, isEmpty, isFile, isFormData, isFunction, isInt16Array, isInt32Array, isInt8Array, isNull, isNumber, isObj, isPromise, isString, isSymbol, isUint16Array, isUint32Array, isUint8Array, isUndef, last, objEach, objMap, omit, oneOf, _default as path, pick };
+interface N {
+    (n: number): number;
+}
+/**
+ * 包裹一个数字以方便
+ * @param n 数字
+ */
+declare const n: N;
+
+export { CacheKey, ExtractCacheKey, Http, WebCache, cacheKey, date, deepCopy, equal, getChainValue, getDataType, isArray, isArrayBuffer, isBlob, isBol, isDate, isEmpty, isFile, isFormData, isFunction, isInt16Array, isInt32Array, isInt8Array, isNull, isNumber, isObj, isPromise, isString, isSymbol, isUint16Array, isUint32Array, isUint8Array, isUndef, last, merge, n, objEach, objMap, omit, oneOf, _default as path, pick };

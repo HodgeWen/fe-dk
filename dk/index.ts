@@ -13,3 +13,5 @@ export * from './utils/data/common'
 export * from './utils/data/object'
 
 export * from './utils/date/date'
+
+export * from './utils/data/number'

@@ -1,13 +1,20 @@
-import { getDataType } from "../data/data-type"
+import { getDataType } from '../data/data-type'
 
-type Callback<T = any> = (key: string, value?: T, temp?: { value: T; exp: number }) => void
+type Callback<T = any> = (key: CacheKey<T>, value?: T, temp?: { value: T; exp: number }) => void
 
-class WebStorage<K extends string = string> {
+export interface CacheKey<T = any> extends String {}
+
+export function cacheKey<T>(str: string) {
+  return str as CacheKey<T>
+}
+
+export type ExtractCacheKey<T> = T extends CacheKey<infer K> ? K : never
+class WebStorage {
   private store!: Storage
 
   static enabledType: Set<string> = new Set(['string', 'number', 'object', 'boolean', 'bigint'])
 
-  callbacks: Record<string, Callback[]> = {}
+  callbacks: { [key: string]: Callback[] } = {}
 
   constructor(storageType: 'local' | 'session') {
     if (storageType === 'local') {
@@ -26,7 +33,7 @@ class WebStorage<K extends string = string> {
    * @param value 单个值
    * @param exp 单个值的过期时间, 单位秒
    */
-  set<T>(key: K, value: T, exp = 0): WebStorage<K> {
+  set<T>(key: CacheKey<T>, value: T, exp = 0): WebStorage {
     if (value === null) return this
 
     const valueType = typeof value
@@ -40,17 +47,17 @@ class WebStorage<K extends string = string> {
     temp.exp = exp ? Date.now() + exp * 1000 : 0
 
     // 如果有绑定回调则此处出发回调
-    if (this.callbacks[key]) {
-      this.callbacks[key].forEach(fn => fn(key, value, temp))
+    if (this.callbacks[key as string]) {
+      this.callbacks[key as string].forEach(fn => fn(key, value, temp))
     }
-    this.store.setItem(key, JSON.stringify(temp))
+    this.store.setItem(key as string, JSON.stringify(temp))
     return this
   }
 
   // 获取对应的字段
-  get<T = any>(key: K): T | null
-  get<T = any>(key: K, defaultValue: Partial<T>): Partial<T>
-  get<T = any[]>(keys: K[]): T
+  get<T>(key: CacheKey<T>): T | null
+  get<T>(key: CacheKey<T>, defaultValue: Partial<T>): Partial<T>
+  get<T extends [...any[]]>(keys: [...T]): { [I in keyof T]: ExtractCacheKey<T[I]> }
   get(key: any, defaultValue: any = null) {
     let type = getDataType(key)
     if (type === 'string') {
@@ -70,7 +77,7 @@ class WebStorage<K extends string = string> {
     }
 
     if (type === 'array') {
-      return key.map((v: string) => this.get(v as K))
+      return key.map((v: string) => this.get(v))
     }
 
     throw Error(`get第一个参数的类型应该是string或者array, 但传入的值是${type}类型`)
@@ -80,7 +87,7 @@ class WebStorage<K extends string = string> {
    * 获取字段过期时间
    * @param key 字段名
    */
-  getExpire(key: K): number {
+  getExpire<T>(key: CacheKey<T>): number {
     let stringTmp = this.store.getItem(key as string)
     // 如果未查到此项
     if (stringTmp === null) return 0
@@ -95,16 +102,16 @@ class WebStorage<K extends string = string> {
    * 移除一个缓存值
    * @param key 需要移除的值的键
    */
-  remove(key: K): WebStorage<K>
+  remove(key: CacheKey): WebStorage
   /**
    * 移除多个缓存值
    * @param keys 需要移除的值的键的数组
    */
-  remove(keys: K[]): WebStorage<K>
+  remove(keys: CacheKey[]): WebStorage
   /**
    * 清空缓存
    */
-  remove(): WebStorage<K>
+  remove(): WebStorage
   remove(item?: any) {
     if (item === undefined) {
       this.store.clear()
@@ -158,12 +165,12 @@ export class WebCache {
   private static session: any = null
   private static local: any = null
 
-  static create<K extends string = string>(type: 'session' | 'local') {
+  static create(type: 'session' | 'local') {
     let cache = WebCache[type]
     if (cache !== null) {
-      return cache as WebStorage<K>
+      return cache as WebStorage
     }
-    let _cache = new WebStorage<K>(type)
+    let _cache = new WebStorage(type)
     WebCache[type] = _cache
     return _cache
   }

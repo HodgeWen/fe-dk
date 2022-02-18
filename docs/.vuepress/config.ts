@@ -50,12 +50,11 @@ export default defineUserConfig<DefaultThemeOptions>({
             '/utils/data.md',
             '/utils/HTTP.md',
             '/utils/path.md',
-            '/utils/calc.md',
             '/utils/date.md',
             '/utils/crypto.md',
             '/utils/hash.md',
             '/utils/db.md',
-            '/utils/encoder.md'
+            '/utils/codec.md'
           ]
         }
       ]

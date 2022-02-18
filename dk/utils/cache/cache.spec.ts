@@ -1,17 +1,21 @@
-import { WebCache } from './cache'
+import { cacheKey, WebCache } from './cache'
 
-const session = WebCache.create<'name' | 'info' | 'token'>('session')
+const session = WebCache.create('session')
 
 describe('会话缓存', () => {
-  it('set, get方法', () => {
-    session.set('name', '张三')
-    let name = session.get('name')
+  let NAME = cacheKey<string>('name')
+  let INFO = cacheKey<{ name: string; age: number }>('INFO')
 
-    session.set('info', {
+  it('set, get方法', () => {
+    session.set(NAME, '张三')
+    let name = session.get(NAME)
+
+    session.set(INFO, {
       name: '李四',
       age: 24
     })
-    let values = session.get(['name', 'info'])
+
+    let values = session.get([NAME, INFO])
 
     expect(name).toBe('张三')
     expect(values).toEqual([
@@ -24,18 +28,19 @@ describe('会话缓存', () => {
   })
 
   it('测试有效期', () => {
-    session.set('token', 'my-token', 1)
+    let TOKEN = cacheKey<string>('TOKEN')
+    session.set(TOKEN, 'my-token', 1)
     setTimeout(() => {
       expect(session.get('token')).toBeNull()
     }, 2)
   })
 
   it('测试移除', () => {
-    session.remove('name')
-    expect(session.get('name')).toBeNull()
+    session.remove(NAME)
+    expect(session.get(NAME)).toBeNull()
 
-    session.remove(['info'])
+    session.remove([INFO])
 
-    expect(session.get(['info'])).toEqual([null])
+    expect(session.get([INFO])).toEqual([null])
   })
 })

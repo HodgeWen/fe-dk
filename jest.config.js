@@ -1,12 +1,12 @@
 module.exports = {
-  roots: ['<rootDir>/sdk'],
+  roots: ['<rootDir>/dk'],
   preset: 'ts-jest',
-  testMatch: ['<rootDir>/sdk/**/*.spec.ts'],
+  testMatch: ['<rootDir>/dk/**/*.spec.ts'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   modulePathIgnorePatterns: ['/dist/'],
   setupFiles: [],
   moduleNameMapper: {
-    '^@sdk/(.*)$': '<rootDir>/packages/$1/$1.ts'
+    '^@dk/(.*)$': '<rootDir>/packages/$1/$1.ts'
   },
   rootDir: __dirname,
   testEnvironment: 'jsdom'
