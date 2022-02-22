@@ -6,7 +6,6 @@
     "test": "jest",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:serve": "vuepress serve docs",
     "dk:build": "rollup -c",
     "deploy": "npm publish --registry https://registry.npmjs.org",
     "prepare": "husky install",
