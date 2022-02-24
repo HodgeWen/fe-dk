@@ -29,8 +29,25 @@ export default defineUserConfig<DefaultThemeOptions>({
 
     navbar: [
       {
-        text: '指南',
-        link: '/guide/'
+        text: '实验室',
+        children: [
+          {
+            text: '数据结构',
+            link: '/lab/data-structure/'
+          },
+          {
+            text: '算法',
+            link: '/lab/algorithm/'
+          },
+          {
+            text: '设计模式',
+            link: '/lab/pattern/'
+          },
+          {
+            text: '其他',
+            link: '/lab/others/'
+          }
+        ]
       },
       {
         text: '工具',
@@ -39,7 +56,14 @@ export default defineUserConfig<DefaultThemeOptions>({
     ],
 
     sidebar: {
-      '/guide/': [{ text: '指南', children: ['/guide/README.md'] }],
+      '/lab/data-structure/': [
+        {
+          text: '数据结构',
+          children: [
+            '/lab/data-structure/list.md'
+          ]
+        }
+      ],
       '/utils/': [
         {
           text: '工具',

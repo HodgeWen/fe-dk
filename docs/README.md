@@ -2,6 +2,8 @@
 home: true
 
 actions:
+  - text: 前端实验室
+    link: /lab/
   - text: 浏览工具
     link: /utils/
 
