@@ -1,4 +1,6 @@
 import { defineUserConfig, DefaultThemeOptions } from 'vuepress'
+import navbar from './config/navbar'
+import sidebar from './config/sidebar'
 
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'zh-CN',
@@ -8,16 +10,26 @@ export default defineUserConfig<DefaultThemeOptions>({
   bundler: '@vuepress/vite',
 
   base: '/fe-dk/',
+  head: [
+    [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: `/images/logo.png`
+      }
+    ]
+  ],
 
   plugins: [['@vuepress/plugin-search', {}]],
 
   themeConfig: {
     docsDir: 'docs',
     repo: 'https://github.com/wenhongjie/fe-dk',
-
+    logo: '/images/logo.png',
     search: true,
-
-    algolia: {},
+    // algolia: {},
 
     notFound: [
       '这里什么都没有',
@@ -26,62 +38,12 @@ export default defineUserConfig<DefaultThemeOptions>({
       '看起来我们进入了错误的链接'
     ],
     backToHome: '返回首页',
-
-    navbar: [
-      {
-        text: '实验室',
-        children: [
-          {
-            text: '数据结构',
-            link: '/lab/data-structure/'
-          },
-          {
-            text: '算法',
-            link: '/lab/algorithm/'
-          },
-          {
-            text: '设计模式',
-            link: '/lab/pattern/'
-          },
-          {
-            text: '其他',
-            link: '/lab/others/'
-          }
-        ]
-      },
-      {
-        text: '工具',
-        link: '/utils/'
-      }
-    ],
-
-    sidebar: {
-      '/lab/data-structure/': [
-        {
-          text: '数据结构',
-          children: [
-            '/lab/data-structure/list.md'
-          ]
-        }
-      ],
-      '/utils/': [
-        {
-          text: '工具',
-          activeMatch: '/utils/cache.html',
-          children: [
-            '/utils/cache.md',
-            '/utils/data-type.md',
-            '/utils/data.md',
-            '/utils/HTTP.md',
-            '/utils/path.md',
-            '/utils/date.md',
-            '/utils/crypto.md',
-            '/utils/hash.md',
-            '/utils/db.md',
-            '/utils/codec.md'
-          ]
-        }
-      ]
-    }
+    lastUpdatedText: '上次更新于',
+    contributorsText: '贡献者',
+    editLink: false,
+    toggleDarkMode: '切换深色模式',
+    toggleSidebar: '切换侧边栏',
+    navbar,
+    sidebar
   }
 })

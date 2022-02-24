@@ -1,5 +1,6 @@
 ---
 home: true
+heroImage: /images/logo.png
 
 actions:
   - text: 前端实验室
@@ -15,5 +16,5 @@ features:
   - title: 高效
     details: 所有的工具使用模块导出, 可以完全利用构建工具的tree-shaking机制
 
-footer: MIT Licensed
+footer: MIT Licensed | © 2022-现在 元和前端
 ---
