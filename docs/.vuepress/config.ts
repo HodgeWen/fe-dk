@@ -1,10 +1,11 @@
 import { defineUserConfig, DefaultThemeOptions } from 'vuepress'
 import navbar from './config/navbar'
 import sidebar from './config/sidebar'
+import {version} from '../../package.json'
 
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'zh-CN',
-  title: 'fe-dk',
+  title: `fe-dk v${version}`,
   description: '前端开发工具包',
 
   bundler: '@vuepress/vite',

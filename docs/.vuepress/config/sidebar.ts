@@ -1,11 +1,19 @@
 const sidebar = {
   '/lab/data-structure/': [
-    {
-      text: '数据结构',
-      children: [
-        '/lab/data-structure/list.md'
-      ]
-    }
+    // {
+    //   text: '数据结构',
+    //   children: [
+        '/lab/data-structure/README.md',
+        '/lab/data-structure/array.md',
+        '/lab/data-structure/queue.md',
+        '/lab/data-structure/stack.md',
+        '/lab/data-structure/list.md',
+        '/lab/data-structure/tree.md',
+        '/lab/data-structure/heap.md',
+        '/lab/data-structure/hash.md',
+        '/lab/data-structure/graph.md',
+    //   ]
+    // }
   ],
   '/utils/': [
     {
@@ -24,6 +32,17 @@ const sidebar = {
         '/utils/codec.md'
       ]
     }
+  ],
+  '/learn/db/': [
+    '/learn/db/README.md',
+    '/learn/db/mysql.md',
+    '/learn/db/mongodb.md',
+    '/learn/db/redis.md',
+    '/learn/db/sqlite.md'
+  ],
+  '/learn/term/': [
+    '/learn/term/README.md',
+    '/learn/term/basic.md'
   ]
 }
 

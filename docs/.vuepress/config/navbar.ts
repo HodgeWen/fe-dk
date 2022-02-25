@@ -1,5 +1,9 @@
 const navbar = [
   {
+    text: `工具`,
+    link: '/utils/'
+  },
+  {
     text: '实验室',
     link: '/lab/',
     children: [
@@ -21,9 +25,21 @@ const navbar = [
       }
     ]
   },
+
   {
-    text: '工具',
-    link: '/utils/'
+    text: '学习',
+    link: '/learn/',
+    children: [
+      {
+        text: '术语',
+        link: '/learn/term/'
+
+      },
+      {
+        text: '数据库',
+        link: '/learn/db/'
+      }
+    ]
   }
 ]
 
