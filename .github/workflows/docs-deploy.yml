@@ -41,9 +41,9 @@ jobs:
       # - name: Install dependencies
       #   if: steps.yarn-cache.outputs.cache-hit != 'true'
       #   run: yarn --frozen-lockfile
-      - uses: pnpm/action-setup@v2.1.0
+      - uses: pnpm/action-setup@v2.2.1
         with:
-          version: 6.0.2
+          version: latest
           run_install: true
 
       # 运行构建脚本
