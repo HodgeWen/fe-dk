@@ -194,7 +194,23 @@ objEach({ a: 1, b: 2 }, (v, k) => console.log(`${k}: ${v}`))
 ## 金额操作
 
 ### chineseAmount
+将数字金额转成中文大写
 ```ts
 chineseAmount(1234.5678)
 //return 壹仟贰佰叁拾肆元伍角陆分柒毫捌厘
+```
+
+## 静态资源
+
+### requireImg
+引入本地静态图片
+```ts
+requireImg('ship')
+//return http://localhost:2001/src/assets/ship.jpg
+
+requireImg('ship.png', '/test', 'png')
+//return http://localhost:2001/test/ship.png
+
+requireImg(['ship', 'train'])
+//return ['http://localhost:2001/src/assets/ship.jpg','http://localhost:2001/src/assets/train.jpg']
 ```

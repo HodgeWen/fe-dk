@@ -1,3 +1,7 @@
+/**
+ * 金额转中文大写
+ * @param money 要转换的金额
+ */
 export function chineseAmount(money: any) {
   const CN_NUMS = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
   const CN_INT_RADICE = ['', '拾', '佰', '仟']
