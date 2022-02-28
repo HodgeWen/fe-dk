@@ -1,19 +1,19 @@
 const sidebar = {
   '/lab/data-structure/': [
-    // {
-    //   text: '数据结构',
-    //   children: [
-        '/lab/data-structure/README.md',
-        '/lab/data-structure/array.md',
-        '/lab/data-structure/queue.md',
-        '/lab/data-structure/stack.md',
-        '/lab/data-structure/list.md',
-        '/lab/data-structure/tree.md',
-        '/lab/data-structure/heap.md',
-        '/lab/data-structure/hash.md',
-        '/lab/data-structure/graph.md',
-    //   ]
-    // }
+    '/lab/data-structure/README.md',
+    '/lab/data-structure/array.md',
+    '/lab/data-structure/queue.md',
+    '/lab/data-structure/stack.md',
+    '/lab/data-structure/list.md',
+    '/lab/data-structure/tree.md',
+    '/lab/data-structure/heap.md',
+    '/lab/data-structure/hash.md',
+    '/lab/data-structure/graph.md'
+  ],
+  '/lab/algorithm/': [
+    '/lab/algorithm/README.md',
+    '/lab/algorithm/sort.md',
+    '/lab/algorithm/search.md'
   ],
   '/utils/': [
     {
@@ -41,10 +41,7 @@ const sidebar = {
     '/learn/db/redis.md',
     '/learn/db/sqlite.md'
   ],
-  '/learn/term/': [
-    '/learn/term/README.md',
-    '/learn/term/basic.md'
-  ]
+  '/learn/term/': ['/learn/term/README.md', '/learn/term/basic.md']
 }
 
 export default sidebar
