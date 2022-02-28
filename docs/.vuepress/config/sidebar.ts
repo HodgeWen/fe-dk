@@ -29,7 +29,8 @@ const sidebar = {
         '/utils/crypto.md',
         '/utils/hash.md',
         '/utils/db.md',
-        '/utils/codec.md'
+        '/utils/codec.md',
+        '/utils/image.md'
       ]
     }
   ],
