@@ -1,6 +1,7 @@
+
 module.exports = {
   roots: ['<rootDir>/dk'],
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/default-esm',
   testMatch: ['<rootDir>/dk/**/*.spec.ts'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   modulePathIgnorePatterns: ['/dist/'],
@@ -9,5 +10,11 @@ module.exports = {
     '^@dk/(.*)$': '<rootDir>/packages/$1/$1.ts'
   },
   rootDir: __dirname,
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
+  extensionsToTreatAsEsm: [".ts"],
+  globals: {
+    'ts-jest': {
+      useESM: true
+    }
+  }
 }

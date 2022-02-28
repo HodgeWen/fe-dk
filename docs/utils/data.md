@@ -191,6 +191,7 @@ objEach({ a: 1, b: 2 }, (v, k) => console.log(`${k}: ${v}`))
 ## 数字操作
 数字操作通常用来恢复精度, 转化不同的使用方式(比如货币, 使用货币时会被转化为字符串, 并用分隔符分割千分位)
 
+## 静态资源
 fe-sdk中提供了一个包装函数**n**来包裹数字.
 ### n(num).fixed(n)
 指定一个数字保留几位小数点, 并且截取掉无用的0
@@ -200,11 +201,15 @@ n(1.296).fixed(2)
 // return 1.3
 ```
 
-
-## 金额操作
-
-### chineseAmount
+### requireImg
+引入本地静态图片
 ```ts
-chineseAmount(1234.5678)
-//return 壹仟贰佰叁拾肆元伍角陆分柒毫捌厘
+requireImg('ship')
+//return http://localhost:2001/src/assets/ship.jpg
+
+requireImg('ship.png', '/test', 'png')
+//return http://localhost:2001/test/ship.png
+
+requireImg(['ship', 'train'])
+//return ['http://localhost:2001/src/assets/ship.jpg','http://localhost:2001/src/assets/train.jpg']
 ```
