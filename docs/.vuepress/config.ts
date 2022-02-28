@@ -1,7 +1,7 @@
 import { defineUserConfig, DefaultThemeOptions } from 'vuepress'
 import navbar from './config/navbar'
 import sidebar from './config/sidebar'
-import {version} from '../../package.json'
+import { version } from '../../package.json'
 
 export default defineUserConfig<DefaultThemeOptions>({
   lang: 'zh-CN',
@@ -18,7 +18,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         rel: 'icon',
         type: 'image/png',
         sizes: '32x32',
-        href: `/images/logo.png`
+        href: `/fe-dk/images/logo.png`
       }
     ]
   ],
