@@ -191,6 +191,17 @@ objEach({ a: 1, b: 2 }, (v, k) => console.log(`${k}: ${v}`))
 ## 数字操作
 数字操作通常用来恢复精度, 转化不同的使用方式(比如货币, 使用货币时会被转化为字符串, 并用分隔符分割千分位)
 
+### format
+```ts
+import { n } from 'fe-dk'
+
+n(1234.5678).format('money', 2)
+//return 1,234.57
+
+n(1234.5678).format('cn-money')
+//return 壹仟贰佰叁拾肆元伍角陆分柒毫捌厘
+```
+
 ## 静态资源
 
 ### requireImg
