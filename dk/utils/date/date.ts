@@ -1,5 +1,9 @@
 import { isDate } from '../..'
 
+type DateKey = 'timestamp' | 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'
+
+type PrivateDateKey = `_${DateKey}`
+
 class Dater {
   constructor(date: number | string | Date | Dater) {
     if (date instanceof Dater) {
@@ -12,8 +16,6 @@ class Dater {
   }
 
   private date!: Date
-
-  private _timestamp?: number
 
   private static matchers: Record<string, (date: Date, len: number) => string> = {
     yyyy: (date: Date) => date.getFullYear() + '',
@@ -44,11 +46,60 @@ class Dater {
     }
   }
 
+  /**
+   * 返回私有属性
+   * @param key 私有属性
+   * @param value 默认值
+   * @returns
+   */
+  private _get(key: PrivateDateKey, value: number) {
+    let v = this[key]
+    if (v) return v
+    this[key] = value
+    return value
+  }
+
+  private _timestamp?: number
+
   /** 时间戳 */
   get timestamp() {
-    if (this._timestamp) return this._timestamp
-    this._timestamp = this.date.getTime()
-    return this._timestamp
+    return this._get('_timestamp', this.date.getTime())
+  }
+
+  private _year?: number
+  /** 年 */
+  get year() {
+    return this._get('_year', this.date.getFullYear())
+  }
+
+  private _month?: number
+  /** 月 */
+  get month() {
+    return this._get('_month', this.date.getMonth() + 1)
+  }
+
+  private _day?: number
+  /** 日 */
+  get day() {
+    return this._get('_day', this.date.getDate())
+  }
+
+  private _hour?: number
+  /** 时 */
+  get hour() {
+    return this._get('_hour', this.date.getHours())
+  }
+
+  private _minute?: number
+  /** 分 */
+  get minute() {
+    return this._get('_minute', this.date.getMinutes())
+  }
+
+  private _second?: number
+  /** 秒 */
+  get second() {
+    return this._get('_second', this.date.getSeconds())
   }
 
   static setMatcher(reg: string, matcher: (date: Date, len: number) => string) {
@@ -98,7 +149,7 @@ class Dater {
    * 比较日期获取日期差
    */
   compare(date: string | Date | number | Dater) {
-    return Math.ceil( Math.abs(this.timestamp - new Dater(date).timestamp) / 86400000)
+    return Math.ceil(Math.abs(this.timestamp - new Dater(date).timestamp) / 86400000)
   }
 }
 

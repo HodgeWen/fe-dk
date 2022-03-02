@@ -43,4 +43,16 @@ describe('日期测试', () => {
     expect(date('2022-02-14').compare('2022-02-15 01:00:00')).toBe(1)
     expect(date('2022-02-14').compare('2022-02-16 23:59:59')).toBe(3)
   })
+
+  it('日期单位', () => {
+    let d = date('2022-02-14 01:02:03')
+    expect(d.year).toBe(2022)
+    expect(d.month).toBe(2)
+    expect(d.day).toBe(14)
+    expect(d.hour).toBe(1)
+    expect(d.minute).toBe(2)
+    expect(d.second).toBe(3)
+  })
+
+
 })
