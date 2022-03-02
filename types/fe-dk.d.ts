@@ -470,10 +470,35 @@ declare function objEach<O, K extends keyof O>(obj: O, fn: (val: O[K], key: K) =
 declare class Dater {
     constructor(date: number | string | Date | Dater);
     private date;
-    private _timestamp?;
     private static matchers;
+    /**
+     * 返回私有属性
+     * @param key 私有属性
+     * @param value 默认值
+     * @returns
+     */
+    private _get;
+    private _timestamp?;
     /** 时间戳 */
     get timestamp(): number;
+    private _year?;
+    /** 年 */
+    get year(): number;
+    private _month?;
+    /** 月 */
+    get month(): number;
+    private _day?;
+    /** 日 */
+    get day(): number;
+    private _hour?;
+    /** 时 */
+    get hour(): number;
+    private _minute?;
+    /** 分 */
+    get minute(): number;
+    private _second?;
+    /** 秒 */
+    get second(): number;
     static setMatcher(reg: string, matcher: (date: Date, len: number) => string): void;
     static use(plugin: (dater: typeof Dater) => void): void;
     /** 获取所有的匹配器 */
@@ -509,8 +534,30 @@ interface DateFactory {
 }
 declare const date: DateFactory;
 
+declare type FormatType = 'money' | 'cn-money';
+declare class Num {
+    private v;
+    private static numberFmt;
+    private money;
+    private cn_money;
+    constructor(n: number);
+    /**
+     * 将数字格式化
+     * @param type 格式化类型
+     */
+    format(type: FormatType): string;
+    /**
+     * 指定数字最大保留几位小数点
+     * @param n 位数
+     */
+    fixed(n: number): number;
+    /**
+     * 遍历数字
+    */
+    each(fn: (n: number) => void): void;
+}
 interface N {
-    (n: number): number;
+    (n: number): Num;
 }
 /**
  * 包裹一个数字以方便
@@ -518,4 +565,11 @@ interface N {
  */
 declare const n: N;
 
-export { CacheKey, ExtractCacheKey, Http, WebCache, cacheKey, date, deepCopy, equal, getChainValue, getDataType, isArray, isArrayBuffer, isBlob, isBol, isDate, isEmpty, isFile, isFormData, isFunction, isInt16Array, isInt32Array, isInt8Array, isNull, isNumber, isObj, isPromise, isString, isSymbol, isUint16Array, isUint32Array, isUint8Array, isUndef, last, merge, n, objEach, objMap, omit, oneOf, _default as path, pick };
+/**
+ * 压缩图片文件
+ * @param file 图片文件
+ * @param max 压缩到最大的字节
+ */
+declare function compressImageFile(file: File, max: number): Promise<File>;
+
+export { CacheKey, ExtractCacheKey, Http, WebCache, cacheKey, compressImageFile, date, deepCopy, equal, getChainValue, getDataType, isArray, isArrayBuffer, isBlob, isBol, isDate, isEmpty, isFile, isFormData, isFunction, isInt16Array, isInt32Array, isInt8Array, isNull, isNumber, isObj, isPromise, isString, isSymbol, isUint16Array, isUint32Array, isUint8Array, isUndef, last, merge, n, objEach, objMap, omit, oneOf, _default as path, pick };
