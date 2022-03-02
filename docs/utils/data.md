@@ -212,6 +212,15 @@ n(1234.5678).format('cn-money')
 //return 壹仟贰佰叁拾肆元伍角陆分柒毫捌厘
 ```
 
+### each
+数字遍历
+```ts
+n(3).each((v) => {
+  console.log(v)
+})
+//log 1,2,3
+```
+
 ## 静态资源
 
 ### requireImg
