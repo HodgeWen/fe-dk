@@ -10,4 +10,11 @@ describe('数字操作', () => {
   it('format(cn-money)', () => {
     expect(n(1234.5678).format('cn-money')).toBe('壹仟贰佰叁拾肆元伍角陆分柒毫捌厘')
   })
+  it('each', () => {
+    let arr: number[] = []
+    n(10).each((v)=>{
+      arr.push(v)
+    })
+    expect(arr).toEqual([1,2,3,4,5,6,7,8,9,10])
+  })
 })

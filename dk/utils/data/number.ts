@@ -91,6 +91,16 @@ class Num {
     const { v } = this
     return +v.toFixed(n)
   }
+
+  /**
+   * 遍历数字
+  */
+   each(fn: (n: number) => void) {
+    const { v } = this
+    for(let i = 1; i <= v; i++) {
+      fn(i)
+    }
+  }
 }
 
 interface N {
