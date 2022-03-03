@@ -8,7 +8,7 @@ title: 工作流 workflow
 
 我们以请假来举例:
 
-<img src="/fe-dk/images/QingJia.jpg" />
+![请假流程](/fe-dk/images/QingJia.jpg)
 
 以上的流程中有几个重要的内容: 表单, 负责人, 审批动作.
 该流程中使用了一个表单, 在发起时填写, 在审批时需要查看表单内容, 审批需要指定负责人, 审批通过和驳回都立即结束.
