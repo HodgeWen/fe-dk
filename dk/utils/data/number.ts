@@ -1,4 +1,4 @@
-type FormatType = 'money' | 'cn-money'
+type FormatType = 'money' | 'cn_money'
 
 class Num {
   private v!: number
@@ -79,8 +79,7 @@ class Num {
    * @param type 格式化类型
    */
   format(type: FormatType) {
-    const { v } = this
-    return type === 'cn-money' ? this.cn_money(v) : this.money(v)
+    return this[type](this.v)
   }
 
   /**

@@ -1,3 +1,5 @@
 
 
-export function walkTree() {}
+export function walkTree(arr: any[]) {
+  arr.forEach(() => {})
+}

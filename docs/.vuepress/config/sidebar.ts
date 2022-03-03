@@ -41,7 +41,12 @@ const sidebar = {
     '/learn/db/redis.md',
     '/learn/db/sqlite.md'
   ],
-  '/learn/term/': ['/learn/term/README.md', '/learn/term/basic.md']
+  '/learn/term/': [
+    '/learn/term/README.md',
+    '/learn/term/basic.md',
+    '/learn/term/oauth2.md',
+    '/learn/term/workflow.md'
+  ]
 }
 
 export default sidebar
