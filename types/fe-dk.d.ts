@@ -534,7 +534,7 @@ interface DateFactory {
 }
 declare const date: DateFactory;
 
-declare type FormatType = 'money' | 'cn-money';
+declare type FormatType = 'money' | 'cn_money';
 declare class Num {
     private v;
     private static numberFmt;
