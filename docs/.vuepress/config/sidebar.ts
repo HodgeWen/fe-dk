@@ -10,10 +10,15 @@ const sidebar = {
     '/lab/data-structure/hash.md',
     '/lab/data-structure/graph.md'
   ],
+
   '/lab/algorithm/': [
     '/lab/algorithm/README.md',
     '/lab/algorithm/sort.md',
     '/lab/algorithm/search.md'
+  ],
+
+  '/lab/others/': [
+    '/lab/others/README.md'
   ],
   '/utils/': [
     {
